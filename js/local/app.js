@@ -53,7 +53,7 @@ app.controller('EventsCtrl', function($scope, MainSvc) {
     $scope.q = '';
 
     $scope.getImage = function(e) {
-        var a = e.logo === null ? "/img/eventz.jpg" : e.logo.url;
+        var a = e.logo === null ? "img/eventz.jpg" : e.logo.url;
         return a;
     }
     $scope.search = function() {
