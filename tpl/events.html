@@ -12,6 +12,14 @@
                     </span>List</a> <a href="" ng-click="style='grid-group-item'" class="btn btn-default btn-sm"><span
                         class="glyphicon glyphicon-th"></span>Grid</a>
                 </div>
+                <div class="col-md-4 pull-right">
+                	<form class="input-group">
+                	    <input type="text" class="form-control" placeholder="Search for events" ng-model="q">
+                	    <div class="input-group-btn">
+                	        <button class="btn btn-default" type="submit" ng-click="search()"><i class="glyphicon glyphicon-search"></i></button>
+                	    </div>
+                	</form>
+                </div>
             </div>
             <div class="row list-group">
                 <div ng-repeat="e in events" class="item  col-xs-4 col-lg-4" ng-class="style">
@@ -19,11 +27,12 @@
                     	<img class="group list-group-image" src="{{getImage(e)}}" ng-class="{width100: type==grid-group-item}" alt="" />
                         <div class="caption">
                             <h5 class="group inner list-group-item-heading">{{e.start.local|date:'EEE, dd/MM/yyyy HH:mm'}}</h5>
-                            <a href="" ui-sref="detail({id:{{e.id}}})"><h5 class="group inner list-group-item-heading">{{e.name.text|limitTo:49}}</h5></a>
+                            <a href="" ui-sref="detail({id:{{e.id}}})"><h5 class="group inner list-group-item-heading">{{e.name.text|limitTo:40}}</h5></a>
                             <!-- <p class="group inner list-group-item-text">{{e.description.text}}</p> -->
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
-                                    <a class="btn btn-success" href="http://www.jquery2dotnet.com">Join</a>
+                                    <a class="btn btn-success btn-sm" href="http://www.jquery2dotnet.com">
+                                    <i class="fa fa-check"></i> Join</a>
                                 </div>
                             </div>
                         </div>

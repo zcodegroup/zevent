@@ -16,7 +16,7 @@ app.factory('MainSvc', function($http, $q, config) {
             url += q;
             url += sort;
             url += dt;
-            url += popular;
+            // url += popular;
             if (location != null) {
                 var location = '&location.latitude=' + location.latitude + '&location.longitude=' + location.longitude;
                 var within = '&location.within=100mi';
@@ -29,22 +29,10 @@ app.factory('MainSvc', function($http, $q, config) {
             var d = $q.defer();
             var url = 'https://www.eventbriteapi.com/v3/events/' + id + '/?token=' + config.token
             return $http.get(url);
-            // $http.get(url).then(function(res) {
-            //     var id = res.data.venue_id;
-            //     var url = 'https://www.eventbriteapi.com/v3/venues/' + id + '?token=' + config.token;
-            //     $http.get(url).then(function(resx) {
-            //         res.venue = resx;
-            //         d.resolve({
-            //             data: res
-            //         });
-            //     });
-            // });
-            // return d.promise;
-
         },
-        venue: function (id){
-        	var url = 'https://www.eventbriteapi.com/v3/venues/' + id + '?token=' + config.token;
-        	return $http.get(url);
+        venue: function(id) {
+            var url = 'https://www.eventbriteapi.com/v3/venues/' + id + '/?token=' + config.token;
+            return $http.get(url);
         },
         location: function(location) {
             var url = 'https://maps.googleapis.com/maps/api/geocode/json?key=' + config.key;
@@ -62,44 +50,50 @@ app.controller('MainCtrl', function($scope, $state) {
 });
 
 app.controller('EventsCtrl', function($scope, MainSvc) {
+    $scope.q = '';
+
     $scope.getImage = function(e) {
         var a = e.logo === null ? "/img/eventz.jpg" : e.logo.url;
         return a;
     }
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            MainSvc.location(position.coords).then(function(res) {
-                var city = "";
-                var country = "";
-                var x = res.data.results[0].address_components;
-                for (var i in x) {
-                    if (x[i].types[0] === 'administrative_area_level_1')
-                        city = x[i].long_name;
-                    if (x[i].types[0] === 'country')
-                        country = x[i].long_name;
-                }
-                $scope.location = city + ', ' + country;
-                // console.log(res.data.results[0]);
+    $scope.search = function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                MainSvc.location(position.coords).then(function(res) {
+                    var city = "";
+                    var country = "";
+                    var x = res.data.results[0].address_components;
+                    for (var i in x) {
+                        if (x[i].types[0] === 'administrative_area_level_1')
+                            city = x[i].long_name;
+                        if (x[i].types[0] === 'country')
+                            country = x[i].long_name;
+                    }
+                    $scope.location = city + ', ' + country;
+                });
+                MainSvc.search($scope.q, position.coords).then(function(res) {
+                    $scope.events = res.data.events;
+                })
             });
-            MainSvc.search('', position.coords).then(function(res) {
+        } else {
+            MainSvc.search($scope.q, null).then(function(res) {
                 $scope.events = res.data.events;
             })
-        });
-    } else {
-        console.log("Geolocation is not supported by this browser.");
+        }
     }
+    $scope.search();
 })
 
 app.controller('DetailCtrl', function($scope, $stateParams, MainSvc) {
     var id = $stateParams.id;
     MainSvc.detail(id).then(function(res) {
-    	$scope.o = res.data;
-    	// MainSvc.venue(res.data.venue_id).then(function (resx){
-    	// 	var o = res.data;
-    	// 	o.venue = resx.data;
-    	// 	$scope.o = o;
-    	// 	console.log(o)
-    	// })
+        $scope.o = res.data;
+        // MainSvc.venue(res.data.venue_id).then(function (resx){
+        // 	var o = res.data;
+        // 	o.venue = resx.data;
+        // 	$scope.o = o;
+        // 	console.log(o)
+        // })
     })
 })
 
