@@ -1,0 +1,36 @@
+<div class="content-section-b">
+    <div class="container">
+        <div class="row">
+        	<h1>Events</h1>
+        	Showing events near {{location}}
+        </div>
+        <div class="row" ng-init="style='list-group-item'">
+            <div class="well well-sm">
+                <strong>Category Title</strong>
+                <div class="btn-group">
+                    <a href="" ng-click="style='list-group-item'" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+                    </span>List</a> <a href="" ng-click="style='grid-group-item'" class="btn btn-default btn-sm"><span
+                        class="glyphicon glyphicon-th"></span>Grid</a>
+                </div>
+            </div>
+            <div class="row list-group">
+                <div ng-repeat="e in events" class="item  col-xs-4 col-lg-4" ng-class="style">
+                    <div class="thumbnail">
+                    	<img class="group list-group-image" src="{{getImage(e)}}" ng-class="{width100: type==grid-group-item}" alt="" />
+                        <div class="caption">
+                            <h5 class="group inner list-group-item-heading">{{e.start.local|date:'EEE, dd/MM/yyyy HH:mm'}}</h5>
+                            <a href="" ui-sref="detail({id:{{e.id}}})"><h5 class="group inner list-group-item-heading">{{e.name.text|limitTo:49}}</h5></a>
+                            <!-- <p class="group inner list-group-item-text">{{e.description.text}}</p> -->
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <a class="btn btn-success" href="http://www.jquery2dotnet.com">Join</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

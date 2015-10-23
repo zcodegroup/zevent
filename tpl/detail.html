@@ -1,0 +1,30 @@
+<div class="container" style="margin-top:70px">
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10 col-sm-12">
+            <div class="card hovercard">
+                <div class="cardheader">
+                	<img src="{{o.logo.url}}">
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <a href="">{{o.name.text}}</a>
+                        <p class="subtitle">
+                        	<i class="fa fa-clock-o"></i> <small>{{o.start.local|date:'EEE, dd/MM/yyyy HH:mm'}}</small>
+                        </p>
+                    </div>
+                    <div class="desc">{{o.description.text}}</div>
+                </div>
+                <div class="bottom">
+                    <a class="btn btn-danger btn-sm" href="" ui-sref="events">
+                        <i class="fa fa-angle-double-left"></i> Back
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="">
+                        <i class="fa fa-check"></i> Join
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+	</div>
+</div>
